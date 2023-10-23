@@ -1,0 +1,16 @@
+.titulo{
+    color:darkolivegreen;
+    font-size: 40px;
+}
+
+.p1{
+    font-size: 25px;
+    color:darkslategrey;
+}
+
+.img{
+    width: 900px;
+    height: 550px;
+    display: block;
+    margin: 0 auto;
+}
