@@ -6,13 +6,33 @@ import UsuarioLogin from '../../models/UsuarioLogin';
 import { RotatingLines } from 'react-loader-spinner';
 
 function Login(){
-       
+       //permite a navegação do usuário de forma indireta, fazendo o usuário navegar entre os componentes da tela como do login para a home de forma "passiva"
         const navigate = useNavigate();
+        //useContext: usar o context onde tem as manipulações dos dados e deixando essas variaveis e função disponíveis ao componente Login
         const { usuario, handleLogin, isLoading } = useContext(AuthContext);
 
         const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>(
             {} as UsuarioLogin
         );
+        
+        //function atualizarEstado: pegar o que foi digitado no input e atualizar 
+        //ChangeEvent: evento de mudança
+        function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
+            setUsuarioLogin({
+                //... acessa o objeto ou array e espalha seus dados em outro objeto e outro array
+                ...usuarioLogin,
+                //[e.target.name]: acessa o parÂmetro e o target e a propriedade name  
+                [e.target.name]: e.target.value
+            })
+        }
+
+        //utiliza essa função para ser passados os dados e finalizar esse processo de passar as informações em sí
+        function login(e: ChangeEvent<HTMLFormElement>) {
+           // preventDefault(): tem sempre que utilizar quando for enviar dados em um formulário
+            e.preventDefault()
+            handleLogin(usuarioLogin)
+        }
+
 
         useEffect(() => {
             if (usuario.token !== "") {
@@ -20,17 +40,6 @@ function Login(){
             }
         }, [usuario])
 
-        function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
-            setUsuarioLogin({
-                ...usuarioLogin,
-                [e.target.name]: e.target.value
-            })
-        }
-
-        function login(e: ChangeEvent<HTMLFormElement>) {
-            e.preventDefault()
-            handleLogin(usuarioLogin)
-        }
 
         return (
             <div className="grid grid-cols-1 lg:grid-cols-2 h-screen place-items-center font-bold">
