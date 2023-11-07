@@ -14,6 +14,7 @@ function FormularioTema() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [tema, setTema] = useState<Tema>({} as Tema);
 
+    //useParams: busaca na url o id
     const { id } = useParams<{ id: string }>();
 
     const { usuario, handleLogout } = useContext(AuthContext);
@@ -34,13 +35,14 @@ function FormularioTema() {
         }
     }
 
+    
     useEffect(() => {
         if (token === '') {
             alert('Você precisa estar logado');
             navigate('/login');
         }
     }, [token]);
-
+//useEffect: sempre vai ficar verificando se o id é diferente de indefinido (ou seja, é conhecido), quer dizer que é uma atualização
     useEffect(() => {
         if (id !== undefined) {
             buscarPorId(id)
@@ -48,16 +50,25 @@ function FormularioTema() {
     }, [id])
 
     function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
+        //setTema: função que dispara a atulazação, que a lógica está dentro dela, dentro das chaves está passando o objeto tema
         setTema({
             ...tema,
+            //...tema: o react entende essa linha como:
+            /*
+            id: 2
+            descricao: "C Sharp"
+            */ 
             [e.target.name]: e.target.value
+            // [e.target.name]: e.target.value: atualizando o campo com os valores que estão sendo digitados pela pessoa usuária
         })
     }
 
     async function gerarNovoTema(e: ChangeEvent<HTMLFormElement>) {
+        //e.preventDefault(): comportamento padrão
         e.preventDefault()
         setIsLoading(true)
 
+        //o if está usando a Service de Atualizar
         if (id !== undefined) {
             try {
                 await atualizar(`/temas`, tema, setTema, {
@@ -76,7 +87,7 @@ function FormularioTema() {
                     alert('Erro ao atualizar o Tema')
                 }
             }
-
+         //o else está usando a Service de Cadastrar
         } else {
             try {
                 await cadastrar(`/temas`, tema, setTema, {
@@ -105,9 +116,12 @@ function FormularioTema() {
         navigate("/temas")
     }
 
+    /*o react só aceita o if ternário dentro do return por conta do html*/
     return (
         <div className="container flex flex-col items-center justify-center mx-auto">
+            
             <h1 className="text-4xl text-center my-8">
+                
                 {id === undefined ? 'Cadastrar Tema' : 'Editar Tema'}
             </h1>
 
