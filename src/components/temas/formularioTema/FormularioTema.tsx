@@ -36,7 +36,7 @@ function FormularioTema() {
         }
     }
 
-    
+    //atualiza os dados da postagem após a pagina é renderizada
     useEffect(() => {
         if (token === '') {
             toastAlerta('Você precisa estar logado', 'info');

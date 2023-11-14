@@ -16,6 +16,7 @@ function FormularioPostagem() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     //conjunto de todos os temas existentes na aplicação
+    //<Tema[]> : esse significa que é um vetor de Tema ; useState: é uma função([]): significa o estado atual é um vetor vazio
     const [temas, setTemas] = useState<Tema[]>([])
     //tema escolhido pela pessoa usuaria para fazer a postagem
     const [tema, setTema] = useState<Tema>({
@@ -193,6 +194,7 @@ function FormularioPostagem() {
                     
                     {temas.map((tema) => (
                         <>
+                    
                             <option value={tema.id} >{tema.descricao}</option>
                         </>
                     ))}
